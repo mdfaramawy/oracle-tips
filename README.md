@@ -6,3 +6,13 @@ In the URL of forms , add webstart instaed of config name <br />
 if your application URL is : http://localhost:9001/forms/frmservlet?config=myapp <br />
 then edit it to : http://localhost:9001/forms/frmservlet?config=webstart <br />
 this will download exe file in JNLP format, when you double click it, it will lauch your application browserless , no need to any browser yet.
+
+## Browse specific Files in Forms 6i
+Under When Button_Pressed add the following code: <BR />
+* To Get Excel Path into Field Excel_Path at the MAIN_BLOCK  <BR />
+DECLARE <BR />
+ V_File_Name varchar2(200); <BR />
+BEGIN <BR />
+V_File_Name := GET_FILE_NAME(File_Filter=> 'EXE Files (*.exe)|*.exe|'); <BR />
+:MAIN_BLOCK.Excel_Path := V_File_Name; <BR />
+END; <BR />
