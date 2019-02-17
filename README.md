@@ -19,12 +19,13 @@ END; <BR />
 
 ## Reading Image Files in Forms 6i
 * Add Field of type: IMAGE 
-* When_Mouse_Double_Click TRIGGER add the following code: <BR />
-   DECLARE  <BR />
-  V_File_Name VARCHAR2(4000);  <BR />
-BEGIN  <BR />
-  V_File_Name := GET_FILE_NAME( File_Filter => 'jpg files (*.jpg)|*.jpg|gif files (*.gif)|*.gif|all files (*.*)|*.*|') ; <BR />
-  :MAIN_BLOCK.Image_Path := V_File_Name ; <BR />
-  READ_IMAGE_FILE(V_File_Name, 'JPG', 'MAIN_BLOCK.Item_Image') ; <BR />
-END;  <BR />
-
+* When_Mouse_Double_Click TRIGGER add the following code:
+~~~
+DECLARE  
+  V_File_Name VARCHAR2(4000); 
+BEGIN  
+  V_File_Name := GET_FILE_NAME( File_Filter => 'jpg files (*.jpg)|*.jpg|gif files (*.gif)|*.gif|all files (*.*)|*.*|') ;
+  :MAIN_BLOCK.Image_Path := V_File_Name ;
+  READ_IMAGE_FILE(V_File_Name, 'JPG', 'MAIN_BLOCK.Item_Image') ;
+END;
+~~~
