@@ -30,3 +30,46 @@ BEGIN
   READ_IMAGE_FILE(V_File_Name, 'JPG', 'MAIN_BLOCK.Item_Image') ;
 END;
 ~~~
+
+## Export Oracle Form to EXCEL File
+~~~
+BEGIN
+Appid := DDE.APP_BEGIN('C:\Program Files (x86)\Microsoft Office\Office12\EXCEL.EXE',DDE.APP_MODE_MAXIMIZED);
+DDE.APP_FOCUS(APPID);
+ConvId := DDE.INITIATE('EXCEL','Sheet1' );
+-------------------REPORT HEADER ROW 2----
+DDE.POKE(Convid, 'R1C1',BPT_Product_Code  , DDE.CF_TEXT, 10000); 
+DDE.POKE(Convid, 'R1C2',BPT_Product_Name  , DDE.CF_TEXT, 10000); 
+DDE.POKE(Convid, 'R1C3',BPT_Product_Price , DDE.CF_TEXT, 10000); 
+DDE.POKE(Convid, 'R1C4',BPT_Barcode       , DDE.CF_TEXT, 10000); 
+------------------------------------------
+V_Count := 1;
+GO_BLOCK('VINV_SCALE_PRODUCTS');
+FIRST_RECORD;
+	LOOP
+     V_Count:= V_Count+1;
+     SYNCHRONIZE;
+     ------------------INSERT INTO EXCEL SHEET COLUMNS------------------
+     DDE.POKE(Convid, 'R'||V_Count||'C1', NVL(:VINV_SCALE_PRODUCTS.Product_Code , ' ') , DDE.CF_TEXT, 10000);
+     DDE.POKE(Convid, 'R'||V_Count||'C2', NVL(:VINV_SCALE_PRODUCTS.Product_Name , ' ') , DDE.CF_TEXT, 10000);
+     DDE.POKE(Convid, 'R'||V_Count||'C3', NVL(:VINV_SCALE_PRODUCTS.Product_Price, ' ') , DDE.CF_TEXT, 10000);
+     DDE.POKE(Convid, 'R'||V_Count||'C4', NVL(:VINV_SCALE_PRODUCTS.Scale_Barcode, ' ') , DDE.CF_TEXT, 10000);
+     -----------#
+     EXIT WHEN :SYSTEM.LAST_RECORD = 'TRUE';
+     NEXT_RECORD;
+     -----------#
+	END LOOP;
+	------------------------
+	DDE.TERMINATE(convid);
+  ------------------------
+	EXCEPTION 
+		WHEN DDE.DDE_APP_FAILURE THEN 
+		     MESSAGE('WINDOWS APPLICATION CANNOT START.'); 
+    WHEN DDE.DDE_PARAM_ERR THEN 
+         MESSAGE('A NULL VALUE WAS PASSED TO DDE'); 
+    WHEN DDE.DMLERR_NO_CONV_ESTABLISHED THEN 
+         MESSAGE('DDE CANNOT ESTABLISH A CONVERSATION'); 
+    WHEN DDE.DMLERR_NOTPROCESSED THEN 
+         MESSAGE('A TRANSACTION FAILED');
+END;
+~~~
