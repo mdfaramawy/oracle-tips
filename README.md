@@ -10,13 +10,14 @@ this will download exe file in JNLP format, when you double click it, it will la
 ## Browse specific Files in Forms 6i
 Under When Button_Pressed add the following code: <BR />
 * To Get Excel Path into Field Excel_Path at the MAIN_BLOCK  <BR />
-DECLARE <BR />
- V_File_Name varchar2(200); <BR />
-BEGIN <BR />
-V_File_Name := GET_FILE_NAME(File_Filter=> 'EXE Files (*.exe)|*.exe|'); <BR />
-:MAIN_BLOCK.Excel_Path := V_File_Name; <BR />
-END; <BR />
-
+~~~
+DECLARE
+ V_File_Name varchar2(200); 
+BEGIN 
+V_File_Name := GET_FILE_NAME(File_Filter=> 'EXE Files (*.exe)|*.exe|'); 
+:MAIN_BLOCK.Excel_Path := V_File_Name; 
+END;
+~~~
 ## Reading Image Files in Forms 6i
 * Add Field of type: IMAGE 
 * When_Mouse_Double_Click TRIGGER add the following code:
