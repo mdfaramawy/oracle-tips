@@ -34,7 +34,7 @@ END;
 ## Export Oracle Forms to EXCEL File
 You can export current form data to Excel file using any of the two following methods :
 1. Using DDE PACKAGE
-~~~
+~~~plsql
 BEGIN
 Appid := DDE.APP_BEGIN('C:\Program Files (x86)\Microsoft Office\Office12\EXCEL.EXE',DDE.APP_MODE_MAXIMIZED);
 DDE.APP_FOCUS(APPID);
