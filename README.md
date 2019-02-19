@@ -31,7 +31,9 @@ BEGIN
 END;
 ~~~
 
-## Export Oracle Form to EXCEL File
+## Export Oracle Forms to EXCEL File
+You can export current form data to Excel file using any of the two following methods :
+1. Using DDE PACKAGE
 ~~~
 BEGIN
 Appid := DDE.APP_BEGIN('C:\Program Files (x86)\Microsoft Office\Office12\EXCEL.EXE',DDE.APP_MODE_MAXIMIZED);
@@ -71,5 +73,36 @@ FIRST_RECORD;
          MESSAGE('DDE CANNOT ESTABLISH A CONVERSATION'); 
     WHEN DDE.DMLERR_NOTPROCESSED THEN 
          MESSAGE('A TRANSACTION FAILED');
+END;
+~~~
+
+2- Using System Parameters
+~~~
+DECLARE
+ Prm_List  PARAMLIST ;
+ Full_Path VARCHAR2(100) := NULL;
+BEGIN
+ Full_Path :=  GET_FILE_NAME ( NULL, NULL, 'All Files(*.*)|*.*|', 'Save report', SAVE_FILE, FALSE); 
+ -----------------------------------------
+ IF NOT ID_NULL(GET_PARAMETER_LIST('cus'))then
+     DESTROY_PARAMETER_LIST('cus');
+ END IF ;
+     Prm_List := CREATE_PARAMETER_LIST('cus');  
+     -----------------------------------------
+     -- Adding parameters to the parameter list 
+     -----------------------------------------
+     ADD_PARAMETER(Prm_List,'P_Login_Lang_Code',TEXT_PARAMETER, :GLOBAL.Login_Lang_Code) ;
+     ADD_PARAMETER(Prm_List,'P_Type_Id'        ,TEXT_PARAMETER, :MAIN_BLOCK.Type_Id) ;
+     ADD_PARAMETER(Prm_List,'P_Coupon_Id_From' ,TEXT_PARAMETER, LEAST(:MAIN_BLOCK.Start_Id    , :MAIN_BLOCK.End_Id)) ;
+     ADD_PARAMETER(Prm_List,'P_Coupon_Id_To'   ,TEXT_PARAMETER, GREATEST(:MAIN_BLOCK.Start_Id , :MAIN_BLOCK.End_Id)) ;
+     -----------------------------------------
+     -- Setting System Parameters 
+     ----------------------------------------- 
+     ADD_PARAMETER(Prm_List,'DESTYPE'     , TEXT_PARAMETER, 'FILE');
+     ADD_PARAMETER(Prm_List,'DESFORMAT'   , TEXT_PARAMETER, 'DELIMITED');
+     ADD_PARAMETER(Prm_List,'DESNAME'     , TEXT_PARAMETER, Full_Path||'.XLS');
+      ADD_PARAMETER(Prm_List,'paramform'   , TEXT_PARAMETER, 'NO');
+     -----------------------------------------
+     RUN_PRODUCT(REPORTS, 'RepFileName', SYNCHRONOUS, RUNTIME, FILESYSTEM, 'cus', NULL);
 END;
 ~~~
