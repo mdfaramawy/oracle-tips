@@ -106,3 +106,8 @@ BEGIN
      RUN_PRODUCT(REPORTS, 'RepFileName', SYNCHRONOUS, RUNTIME, FILESYSTEM, 'cus', NULL);
 END;
 ~~~
+
+## When running Oracle Forms , LOGON DENIED: <br />
+- ORA-01017 : invalid username/password ; logon denied
+1. CONNECT AS SYS
+2. alter system set SEC_CASE_SENSITIVE_LOGON = FALSE;
