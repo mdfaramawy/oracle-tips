@@ -118,5 +118,3 @@ C:\orant\BIN
 NN60.DLL and NNB60.DLL
 
 Two files are uploaded to this repository 
-
-http://oracleforms.blogspot.com/2008/04/oracle-forms-6i-en-windows-de-64-bits.html
