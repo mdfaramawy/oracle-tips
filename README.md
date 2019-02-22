@@ -111,3 +111,12 @@ END;
 - ORA-01017 : invalid username/password ; logon denied
 1. CONNECT AS SYS
 2. alter system set SEC_CASE_SENSITIVE_LOGON = FALSE;
+
+## Cannot run Forms 6i after installing Patch18: <br />
+You need to replace the following twon DLL files in this directory: <br />
+C:\orant\BIN
+NN60.DLL and NNB60.DLL
+
+Two files are uploaded to this repository 
+
+http://oracleforms.blogspot.com/2008/04/oracle-forms-6i-en-windows-de-64-bits.html
