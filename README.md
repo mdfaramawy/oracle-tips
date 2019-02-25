@@ -118,3 +118,14 @@ C:\orant\BIN
 NN60.DLL and NNB60.DLL
 
 Two files are uploaded to this repository 
+
+## Adding Icons to Buttons in Forms 6i: <br />
+To make Buttons iconic in forms 6i , you need to add full path of .ico file or image in PROPERTY of BUTTON, <br />
+The easiest method is to : <br />
+- From windows Start MENU , GOTO RUN
+- REGEDIT
+- Search for HKEY_LOCAL_MACHINE , SOFTWARE, ORACLE
+- in the Right Pane add new STRING VALUE <br />
+- - Name: UI_ICON
+- - VALUE: C:\Icos;
+Now you add just name of icon (query) in BUTTON property
