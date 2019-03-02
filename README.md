@@ -140,3 +140,28 @@ To change Direction To the R2L (Right to Left) you need to change NLS_LANG value
 - Repeat search to find all NLS_LANG keys and change it's value <br />
 -  Open Form builder , Now it's Right to Left <br />
 -- To change it back  user: AMERICAN_AMERICA.AR8MSWIN1256 instead of ARABIC_UNITED ARAB EMIRATES.AR8MSWIN1256
+
+## Create Dynamic List Item
+1. connect to hr/hr@orcl
+2. add DPARTMENTS to a new block
+3. create new Record Group named : DEPT_RG  <br />
+and write the following Query : 
+~~~
+SELECT Department_name,TO_CHAR(Department_ID) 
+FROM Departments
+~~~
+4. Create trigger WHEN_NEW_FORM_INSTANCE <br />
+and  write the following Query:
+ ~~~
+ Declare
+ n number;
+ BEGIN
+ n:=populate_group('DEPT_RG');
+ populate_list('DEPARTMENT_ID' , 'DEPT_RG');
+ END;
+~~~
+5. go to DEPARTMENT_ID item property Palette , and change the following attributes:<br />
+ Item Type: List Item <br />
+ Elements in List : clear any data <br />
+
+6. Run form , you're done...
