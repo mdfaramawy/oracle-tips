@@ -165,3 +165,105 @@ and  write the following Query:
  Elements in List : clear any data <br />
 
 6. Run form , you're done...
+
+## Handling Errors Messages in Oracle Forms
+When running Oracle Forms, You may get errors because of CODE or User-related errors <br />
+So Here's a simple trick to handle such these errors:
+1. Create ERROR_MESSAGES table
+~~~
+create table ERROR_MESSAGES (
+    MSG_Code                       varchar2(15),
+    MSG_Type                       varchar2(15),
+    MSG_Desc                       varchar2(200)
+) ;
+~~~
+2. Insert The following Data:
+~~~
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40401, '1', 'No changes currently made to be saved.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40202, '1', 'This field must be entered, navigation not allowed.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40301, '1', 'No records retrieved.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40400, '1', 'Data is successfully saved.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40600, '1', ' This record is already exist');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40508, '1', ' unable to insert record.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50000, '1',' Attention pls. your characters inputs exceeded the allowed limits.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50001, '1',' Acceptable characters are a-z, A-Z, and space.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50002, '1', 'Months must be between 1 and 12');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50003, '1', 'Year must be in proper range.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50004, '1', 'The Day must be between 1 and last day of the month');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50025, '1', 'Attention pls. your date or time must be in the proper format. ');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50026, '1', ' pls. re-enter the date in the requested format. ');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50006, '1',' Legal characters are 0-9 + and -.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+ VALUES (50007, '1',' Attention pls. too many digits after the decimal point.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50009, '1',' Attention pls. too many decimal points.');  
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (50016, '1', 'Accepts Numbers Only');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40100, '1', ' The First Record');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (41830, '1', ' No LOV Entries.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (41049, '1', 'Delete Is Not Allowed');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40509, '1', 'Update Is Not Allowed');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (41051, '1', 'Insert Is Not Allowed');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40360, '1', 'Query Is Not Allowed');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40510, '1', 'This Record Related to Other Data');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40102, '1', 'Record Must Be Inserted or Deleted');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (41003, '1', 'Query Is Not Allowed.');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40212, '1', 'Incorrect Value Inserted');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40352, '1', 'Last Record');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40350, '1', 'No Data Retrieved');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40200, '1', 'Protected Against Update');
+INSERT INTO ERROR_MESSAGES (MSG_CODE, MSG_TYPE, MSG_DESC)
+VALUES (40353, '1', ' Query Cancelled');
+COMMIT;
+~~~
+3. In the Oracle Forms, Create ON-ERROR TRIGGER:
+~~~
+DECLARE
+    V_MSG_Code             VARCHAR2(15) := ERROR_CODE;
+    V_MSG_Type             VARCHAR2(15) := ERROR_TYPE;
+    V_MSG_Text             VARCHAR2(200):= ERROR_TEXT;
+    V_Msg_Desc             VARCHAR2(200);
+BEGIN
+	---------------
+	SELECT Msg_DESC
+	INTO   V_Msg_Desc
+	FROM   ERROR_MESSAGES
+	WHERE  Msg_Code = V_MSG_Code;
+	---------------
+	MESSAGE(V_Msg_Desc);
+	MESSAGE(V_Msg_Desc);
+	---------------
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+	MESSAGE (V_MSG_Text);
+	MESSAGE (V_MSG_Text);
+END;
+~~~
+4. You are done. thanks to https://oracledevelopertrainingtasks.blogspot.com/2016/06/oracle-forms-errors-english-in-thename.html
