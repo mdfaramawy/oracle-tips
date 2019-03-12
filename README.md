@@ -267,3 +267,21 @@ EXCEPTION
 END;
 ~~~
 4. You are done. thanks to https://oracledevelopertrainingtasks.blogspot.com/2016/06/oracle-forms-errors-english-in-thename.html
+
+ ## How to combine TABLES with a composite key?
+1.  Say we have TABLE_A and TABLE_B
+2. TABLE_A  has the composite key (A_Id, A_Name, A_Code) refers columns (B_Id, B_Name, B_Code) in TABLE_B
+3. When combine two tables we use this query:
+~~~
+SELECT *
+FROM   TABLE_A , TABLE_B
+WHERE  TABLE_A.A_Id = TABLE_B.B_Id
+AND    TABLE_A.A_Name = TABLE_B_B_Name
+AND    TABLE_A.A_Code = TABLE_B.B_Code
+~~~
+4. But the correct way is :
+~~~
+SELECT *
+FROM   TABLE_A , TABLE_B
+WHERE  (A_Id, A_Name, A_Code) = ((B_Id, B_Name, B_Code))
+~~~
