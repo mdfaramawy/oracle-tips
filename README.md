@@ -130,17 +130,6 @@ The easiest method is to : <br />
 - - VALUE: C:\Icos;
 Now you add just name of icon (query) in BUTTON property
 
-## Change Form Layout / Direction
-To change Direction To the R2L (Right to Left) you need to change NLS_LANG value<br />
-- From windows Start MENU , GOTO RUN
-- REGEDIT
-- Search for HKEY_LOCAL_MACHINE , SOFTWARE, ORACLE
-- Search for NLS_LANG <br />
-- Replace value to ARABIC_UNITED ARAB EMIRATES.AR8MSWIN1256 <br /> <br />
-- Repeat search to find all NLS_LANG keys and change it's value <br />
--  Open Form builder , Now it's Right to Left <br />
--- To change it back  user: AMERICAN_AMERICA.AR8MSWIN1256 instead of ARABIC_UNITED ARAB EMIRATES.AR8MSWIN1256
-
 ## Create Dynamic List Item
 1. connect to hr/hr@orcl
 2. add DPARTMENTS to a new block
