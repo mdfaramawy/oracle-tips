@@ -274,3 +274,28 @@ SELECT *
 FROM   TABLE_A , TABLE_B
 WHERE  (A_Id, A_Name, A_Code) = ((B_Id, B_Name, B_Code))
 ~~~
+## How to Automatically Execute query when TAB pages changes?
+1. Create Tab Canvas (ACCPETANCE_TAB_CANVAS)
+2. Add two Tab Pages (Accept_1, Accep_2)
+3. Add two Data Blocks (Accept_1_Block, Accept_2_Block)
+4. Add WHEN_TAB_PAGE_CHANGED trigger (FORM_LEVEL) ,and add the following code:
+~~~
+DECLARE
+  V_Tab_Page     VARCHAR2( 30 ):=:SYSTEM.TAB_NEW_PAGE ;
+  V_Msg_Level    NUMBER := :SYSTEM.MESSAGE_LEVEL;
+BEGIN
+ --------------
+ :SYSTEM.MESSAGE_LEVEL:= 10;
+ COMMIT_FORM;
+ :SYSTEM.MESSAGE_LEVEL := V_Msg_Level;
+ --------------
+ IF V_Tab_Page ='Accept_1' THEN
+    GO_BLOCK('Accept_1_Block');
+ ELSIF V_Tab_Page ='R__ACCEPTANCE' THEN
+	  GO_BLOCK('Accept_2_Block');
+    CLEAR_BLOCK(NO_VALIDATE);
+    EXECUTE_QUERY;
+ END IF;
+ --------------
+END;
+~~~
