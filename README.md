@@ -299,3 +299,5 @@ BEGIN
  --------------
 END;
 ~~~
+## How to fix ORACLE REPORTS REP-1401 fatal pl/sql error occurred ?
+* make sure the field size is the compatible with the DataBase column size
