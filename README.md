@@ -76,7 +76,8 @@ FIRST_RECORD;
 END;
 ~~~
  Check : http://kashif11071973.blogspot.com/2017/01/dde-poke.html
- and    https://www.experts-exchange.com/questions/20980703/DDE-in-Oracle-forms.html
+ and
+ https://www.experts-exchange.com/questions/20980703/DDE-in-Oracle-forms.html
 2- Using System Parameters
 ~~~
 DECLARE
