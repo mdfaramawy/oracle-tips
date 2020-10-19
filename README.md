@@ -9,13 +9,13 @@ this will download exe file in JNLP format, when you double click it, it will la
 
 ## Browse specific Files in Forms 6i
 Under When Button_Pressed add the following code: <BR />
-* To Get Excel Path into Field Excel_Path at the MAIN_BLOCK  <BR />
+* To Get Excel Path into Field Excel_Path at the CONTROL_BLOCK  <BR />
 ~~~
 DECLARE
  V_File_Name varchar2(200); 
 BEGIN 
 V_File_Name := GET_FILE_NAME(File_Filter=> 'EXE Files (*.exe)|*.exe|'); 
-:MAIN_BLOCK.Excel_Path := V_File_Name; 
+:CONTROL_BLOCK.Excel_Path := V_File_Name; 
 END;
 ~~~
 ## Reading Image Files in Forms 6i
@@ -26,8 +26,8 @@ DECLARE
   V_File_Name VARCHAR2(4000); 
 BEGIN  
   V_File_Name := GET_FILE_NAME( File_Filter => 'jpg files (*.jpg)|*.jpg|gif files (*.gif)|*.gif|all files (*.*)|*.*|') ;
-  :MAIN_BLOCK.Image_Path := V_File_Name ;
-  READ_IMAGE_FILE(V_File_Name, 'JPG', 'MAIN_BLOCK.Item_Image') ;
+  :CONTROL_BLOCK.Image_Path := V_File_Name ;
+  READ_IMAGE_FILE(V_File_Name, 'JPG', 'CONTROL_BLOCK.Item_Image') ;
 END;
 ~~~
 
@@ -94,9 +94,9 @@ BEGIN
      -- Adding parameters to the parameter list 
      -----------------------------------------
      ADD_PARAMETER(Prm_List,'P_Login_Lang_Code',TEXT_PARAMETER, :GLOBAL.Login_Lang_Code) ;
-     ADD_PARAMETER(Prm_List,'P_Type_Id'        ,TEXT_PARAMETER, :MAIN_BLOCK.Type_Id) ;
-     ADD_PARAMETER(Prm_List,'P_Coupon_Id_From' ,TEXT_PARAMETER, LEAST(:MAIN_BLOCK.Start_Id    , :MAIN_BLOCK.End_Id)) ;
-     ADD_PARAMETER(Prm_List,'P_Coupon_Id_To'   ,TEXT_PARAMETER, GREATEST(:MAIN_BLOCK.Start_Id , :MAIN_BLOCK.End_Id)) ;
+     ADD_PARAMETER(Prm_List,'P_Type_Id'        ,TEXT_PARAMETER, :CONTROL_BLOCK.Type_Id) ;
+     ADD_PARAMETER(Prm_List,'P_Coupon_Id_From' ,TEXT_PARAMETER, LEAST(:CONTROL_BLOCK.Start_Id    , :CONTROL_BLOCK.End_Id)) ;
+     ADD_PARAMETER(Prm_List,'P_Coupon_Id_To'   ,TEXT_PARAMETER, GREATEST(:CONTROL_BLOCK.Start_Id , :CONTROL_BLOCK.End_Id)) ;
      -----------------------------------------
      -- Setting System Parameters 
      ----------------------------------------- 
